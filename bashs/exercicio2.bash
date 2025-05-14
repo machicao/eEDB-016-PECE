@@ -14,7 +14,8 @@ aws dynamodb create-table \
     --key-schema \
         AttributeName=Nome,KeyType=HASH \
     --provisioned-throughput \
-        ReadCapacityUnits=10,WriteCapacityUnits=5
+        ReadCapacityUnits=10,WriteCapacityUnits=5  && \
+aws dynamodb wait table-exists --table-name Forum
 
 aws dynamodb create-table \
     --table-name Thread \
@@ -25,7 +26,8 @@ aws dynamodb create-table \
         AttributeName=NomeForum,KeyType=HASH \
         AttributeName=Tema,KeyType=RANGE \
     --provisioned-throughput \
-        ReadCapacityUnits=10,WriteCapacityUnits=5
+        ReadCapacityUnits=10,WriteCapacityUnits=5  && \
+aws dynamodb wait table-exists --table-name Thread
 
 aws dynamodb create-table \
     --table-name Resposta \
@@ -36,11 +38,9 @@ aws dynamodb create-table \
         AttributeName=Id,KeyType=HASH \
         AttributeName=DataResposta,KeyType=RANGE \
     --provisioned-throughput \
-        ReadCapacityUnits=10,WriteCapacityUnits=5
+        ReadCapacityUnits=10,WriteCapacityUnits=5  && \
  
-aws dynamodb wait table-exists --table-name Resposta && \
-aws dynamodb wait table-exists --table-name Forum && \
-aws dynamodb wait table-exists --table-name Thread
+aws dynamodb wait table-exists --table-name Resposta 
 
 
 #### -------------------------------------------------------------------------------
