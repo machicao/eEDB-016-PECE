@@ -1,6 +1,6 @@
 #### -------------------------------------------------------------------------------
 ## se o link nao funcionar mais, eh so descarregar as pastas de exemplo1 e exemplo2
-git clone git clone https://github.com/machicao/eEDB-016-PECE.git
+git clone https://github.com/machicao/eEDB-016-PECE.git
 
 cd eEDB-016-PECE/exemplo2
 
