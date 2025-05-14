@@ -116,22 +116,21 @@ aws dynamodb query \
 #Atualizar
 
 aws dynamodb update-item \
-   --table-name Forum \ 
-   --key '{
-        "Name" : {"S": "Amazon DynamoDB"}
-    }' \
-   --update-expression "SET Messages = :newMessages" \
-   --condition-expression "Messages = :oldMessages" \
+   --table-name Forum \
+   --key '{"Nome" : {"S": "Gatos"}}' \
+   --update-expression "SET Mensagem = :newMessages" \
+   --condition-expression "Mensagem = :oldMessages" \
    --expression-attribute-values '{
         ":oldMessages" : {"N": "4"},
         ":newMessages" : {"N": "5"}
     }' \
    --return-consumed-capacity TOTAL
 
+
 #remover item
 aws dynamodb query \
-   --table-name Resposta \ 
-   --key-condition-expression 'Id = :Id'  \ 
+   --table-name Resposta \
+   --key-condition-expression 'Id = :Id'  \
    --expression-attribute-values '{
         ":Id" : {"S": "Gatos#Gatos Topico 1"}
     }'\
