@@ -133,7 +133,7 @@ aws dynamodb scan \
     --max-items 2 \
     --return-consumed-capacity TOTAL
 
-
+## usa o último token produzido pelo scan anterior
 aws dynamodb scan \
     --table-name Resposta \
     --filter-expression 'PostadoPor = :user' \
@@ -192,7 +192,7 @@ aws dynamodb delete-item \
     --table-name Resposta \
     --key '{
         "Id" : {"S": "Cachorros#Cachorros Topico 2"},
-        "ReplyDateTime" : {"S": "2021-04-27T17:47:30Z"}
+        "DataResposta" : {"S": "2021-04-27T17:47:30Z"}
     }'
 
 
