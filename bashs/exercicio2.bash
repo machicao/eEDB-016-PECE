@@ -2,9 +2,9 @@
 ## se o link nao funcionar mais, eh so descarregar as pastas de exemplo1 e exemplo2
 git clone https://github.com/machicao/eEDB-016-PECE.git
 
-cd eEDB-016-PECE/exemplo2
-
-
+## por conveniencia movemos as pastas
+mv eEDB-016-PECE/exemplo1 exemplo1
+mv eEDB-016-PECE/exemplo2 exemplo2
 #### -------------------------------------------------------------------------------
 
 aws dynamodb create-table \
@@ -14,7 +14,8 @@ aws dynamodb create-table \
     --key-schema \
         AttributeName=Nome,KeyType=HASH \
     --provisioned-throughput \
-        ReadCapacityUnits=10,WriteCapacityUnits=5  && \
+        ReadCapacityUnits=10,WriteCapacityUnits=5 && \
+
 aws dynamodb wait table-exists --table-name Forum
 
 aws dynamodb create-table \
@@ -26,7 +27,8 @@ aws dynamodb create-table \
         AttributeName=NomeForum,KeyType=HASH \
         AttributeName=Tema,KeyType=RANGE \
     --provisioned-throughput \
-        ReadCapacityUnits=10,WriteCapacityUnits=5  && \
+        ReadCapacityUnits=10,WriteCapacityUnits=5 && \
+
 aws dynamodb wait table-exists --table-name Thread
 
 aws dynamodb create-table \
@@ -38,9 +40,9 @@ aws dynamodb create-table \
         AttributeName=Id,KeyType=HASH \
         AttributeName=DataResposta,KeyType=RANGE \
     --provisioned-throughput \
-        ReadCapacityUnits=10,WriteCapacityUnits=5  && \
+        ReadCapacityUnits=10,WriteCapacityUnits=5 && \
  
-aws dynamodb wait table-exists --table-name Resposta 
+aws dynamodb wait table-exists --table-name Resposta
 
 
 #### -------------------------------------------------------------------------------
@@ -111,7 +113,35 @@ aws dynamodb query \
     --return-consumed-capacity TOTAL
 
 #### -------------------------------------------------------------------------------
+#Atualizar
 
+aws dynamodb update-item \
+   --table-name Forum \ 
+   --key '{
+        "Name" : {"S": "Amazon DynamoDB"}
+    }' \
+   --update-expression "SET Messages = :newMessages" \
+   --condition-expression "Messages = :oldMessages" \
+   --expression-attribute-values '{
+        ":oldMessages" : {"N": "4"},
+        ":newMessages" : {"N": "5"}
+    }' \
+   --return-consumed-capacity TOTAL
+
+#remover item
+aws dynamodb query \
+   --table-name Resposta \ 
+   --key-condition-expression 'Id = :Id'  \ 
+   --expression-attribute-values '{
+        ":Id" : {"S": "Gatos#Gatos Topico 1"}
+    }'\
+   --return-consumed-capacity TOTAL
+
+
+#### -------------------------------------------------------------------------------
+#### -------------------------------------------------------------------------------
+#### -------------------------------------------------------------------------------
+#### -------------------------------------------------------------------------------
 
 
 aws dynamodb scan \
@@ -134,6 +164,7 @@ aws dynamodb scan \
     --return-consumed-capacity TOTAL
 
 ## usa o último token produzido pelo scan anterior
+
 aws dynamodb scan \
     --table-name Resposta \
     --filter-expression 'PostadoPor = :user' \
